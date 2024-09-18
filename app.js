@@ -11,8 +11,7 @@ const flash = require("connect-flash");
 const User = require("./models/User");
 const LocalStrategy = require("passport-local");
 const passport = require('passport');
-
-
+const morgan = require("morgan");
 //middleware
 const ErrorHandler = require("./utils/ErrorHandler");
 
@@ -40,6 +39,7 @@ app.listen(port, () => `Server running on port 127.0.0.1:${port}`);
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
+app.use(morgan("tiny"));
 //session
 app.use(session({
     secret: "rahasia-bang",

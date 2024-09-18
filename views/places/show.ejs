@@ -10,9 +10,23 @@
                 <h1 class="card-title mb-0"><%= place.title %></h1>
             </div>
             <div class="card-body">
-                <div class="text-center mb-3">
-                    <img src="<%= place.image %>" class="img-fluid rounded shadow-sm" alt="Image of <%= place.title %>">
-                </div>
+                <div id="carouselExample" class="carousel slide">
+                    <div class="carousel-inner">
+                        <% for(const image of place.images) { %>
+                      <div class="carousel-item active">
+                        <img src="/image/<%= image.filename %>" class="d-block w-100" alt="<%= place.title %>">
+                      </div>
+                      <% } %>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                  </div>
                 <div>
                     <h5 class="mb-3 text-primary">Description</h5>
                     <p class="text-muted"><%= place.description %></p>

@@ -9,11 +9,13 @@ const isValidObjectId = require("../middlewares/isValidObjectId");
 const validatePlace = require("../middlewares/validatePlace");
 const isAuth = require("../middlewares/isAuth");
 const { isAuthorPlace} = require("../middlewares/isAuthor");
+const upload = require("../config/multer");
 
 
 router.route("/")
     .get(wrapAsync(PlaceController.index))
-    .post( isAuth ,validatePlace, wrapAsync(PlaceController.store));
+    .post( isAuth ,upload.array("image",5),validatePlace, wrapAsync(PlaceController.store));
+  
 
 //create
 router.get("/new", isAuth, (req, res) => {

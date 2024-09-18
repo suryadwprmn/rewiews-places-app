@@ -1,12 +1,14 @@
 const mongoose = require('mongoose');
 const Place = require('../models/Place');
-
+const Hashids = require('hashids/cjs');
+const hashids = new Hashids('rahasia-bang', 10, 'abcdefghijklmnopqrstuvwxyz1234567890'); 
 
 mongoose.connect('mongodb://127.0.0.1/directory-listing-app')
-    .then((result) => {
-        console.log('connected to mongodb')
+    .then(() => {
+        console.log('connected to mongodb');
+        seedPlaces();
     }).catch((err) => {
-        console.log(err)
+        console.log(err);
     });
 
 async function seedPlaces() {
@@ -165,7 +167,12 @@ async function seedPlaces() {
         await place.save();
     }
 
-    console.log('Data places created');
+    // Menampilkan data yang telah di-hash
+    const allPlaces = await Place.find({});
+    const hashedPlaces = allPlaces.map(place => ({
+        ...place._doc,  // Spread the document content
+        _id: hashids.encode(place._id.toString())  // Hash the _id
+    }));
 }
 
 seedPlaces()
