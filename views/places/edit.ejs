@@ -1,0 +1,28 @@
+<% layout("layouts/app") %>
+    <h1 class="text-center">Edit Place</h1>
+    <div class="col-md-6 offset-md-3 col-sm-10">
+        <form action="/places/<%= place._id %>?_method=PUT" method="POST" class="needs-validation mb-3" novalidate>
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" name="place[title]" id="title" class="form-control" value="<%= place.title %>" required>
+            </div>
+            <div class="mb-3">
+                <label for="price" class="form-label">Price</label>
+                <input type="number" name="place[price]" id="price"class="form-control" value="<%= place.price %>" required>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea type="text" name="place[description]" id="description" class="form-control" required><%= place.description %></textarea>
+
+            </div>
+            <div class="mb-3">
+                <label for="location" class="form-label">Location</label>
+                <input type="text" name="place[location]" id="location" class="form-control" value="<%= place.location %>" required>
+            </div>
+            <div class="mb-3">
+                <label for="image" class="form-label">Image URL</label>
+                <input type="text" name="place[image]" id="image" class="form-control" value="<%= place.image %>" required>
+            </div>
+            <input type="submit" value="Add Place" class="btn btn-success">
+        </form>
+    </div>
