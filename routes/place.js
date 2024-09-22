@@ -31,4 +31,6 @@ router.route("/:id")
 //show
 router.get("/:review_id", isValidObjectId("/places") ,wrapAsync(PlaceController.show));
 
+router.delete("/:id/images", isAuth ,isValidObjectId("/places") , isAuthorPlace, wrapAsync(PlaceController.destroyImage));
+
 module.exports = router

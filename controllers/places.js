@@ -89,5 +89,41 @@ module.exports.show = async (req, res) => {
     res.render("places/show", { place });
 }
 
-//buat ulang semua fungsi route menerapkan dengan hash id
+//
+module.exports.destroyImage = async (req, res) => {
+    try {
+        const { id } = req.params; // pastikan 'id' diambil dari req.params
+        const { images } = req.body;
+
+        if (!images || images.length === 0) {
+            req.flash('error_msg', 'No Image Selected');
+            return res.redirect(`/places/${id}/edit`);
+        }
+
+        // Hapus file gambar dari file system
+        for (let image of images) {
+            try {
+                await fs.unlink(`public/image/${image}`);
+            } catch (error) {
+                console.error("Failed to delete image file: ", error);
+            }
+        }
+
+        // Update MongoDB untuk menghapus referensi gambar
+        await Place.findByIdAndUpdate(
+            id,
+            { $pull: { images: { filename: { $in: images } } } }, // Pastikan ini sesuai dengan struktur schema
+            { new: true }
+        );
+
+        req.flash("success_msg", "Successfully deleted image(s)");
+        return res.redirect(`/places/${id}/edit`);
+    } catch (error) {
+        console.error("Error during image deletion: ", error);
+        req.flash("error_msg", "Could not delete image");
+        return res.redirect(`/places/${id}/edit`);
+    }
+};
+
+
 

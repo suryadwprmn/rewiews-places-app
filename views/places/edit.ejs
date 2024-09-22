@@ -1,6 +1,7 @@
 <% layout("layouts/app") %>
-    <h1 class="text-center">Edit Place</h1>
-    <div class="col-md-6 offset-md-3 col-sm-10">
+<h1 class="text-center">Edit Place</h1>
+<div class="row">
+    <div class="col-lg-6 <%= !place.images.length ? 'offset-3' : '' %>">
         <form action="/places/<%= place._id %>?_method=PUT" method="POST" class="needs-validation mb-3" novalidate enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
@@ -8,12 +9,11 @@
             </div>
             <div class="mb-3">
                 <label for="price" class="form-label">Price</label>
-                <input type="number" name="place[price]" id="price"class="form-control" value="<%= place.price %>" required>
+                <input type="number" name="place[price]" id="price" class="form-control" value="<%= place.price %>" required>
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
                 <textarea type="text" name="place[description]" id="description" class="form-control" required><%= place.description %></textarea>
-
             </div>
             <div class="mb-3">
                 <label for="location" class="form-label">Location</label>
@@ -29,3 +29,42 @@
             <input type="submit" value="Edit Place" class="btn btn-success">
         </form>
     </div>
+
+    <% if (place.images.length > 0) { %>
+    <div class="col-lg-6">
+        <h5 class="text-center">Delete images</h5>
+        <div class="form-group form-check">
+            <input type="checkbox" id="checkAll">
+            <label for="checkAll" class="form-check-label">Check All</label>
+        </div>
+        <form action="/places/<%= place._id %>/images?_method=DELETE" method="post">
+            <div class="row">
+                <% place.images.forEach((image, index) => { %>
+                    <div class="col-4">
+                        <div class="card mb-3">
+                            <!-- Path ke gambar -->
+                            <img src="/image/<%= image.filename %>" class="card-img-top img-fluid" alt="Image">
+                            <label class="custom-control custom-checkbox">
+                                <!-- Checkbox untuk memilih gambar -->
+                                <input type="checkbox" name="images[]" value="<%= image.filename %>">
+                                <span class="custom-control custom-checkbox-text">Select</span>
+                            </label>
+                        </div>
+                    </div>
+                <% }) %>
+                <div class="vw-100"></div>
+                <button class="btn btn-danger col-md-5 offset-3" type="submit">Delete</button>
+            </div>
+        </form>
+    </div>
+    <% } %>
+</div>
+
+<script>
+    document.getElementById('checkAll').addEventListener('change', function() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach((checkbox) => {
+            checkbox.checked = this.checked;
+        });
+    });
+</script>
