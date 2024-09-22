@@ -12,30 +12,33 @@
             <div class="card-body">
                 <div id="carouselExample" class="carousel slide">
                     <div class="carousel-inner">
+                        <% let isActive = true; %> <!-- Variabel untuk menentukan item aktif pertama -->
                         <% for(const image of place.images) { %>
-                      <div class="carousel-item active">
-                        <img src="/image/<%= image.filename %>" class="d-block w-100" alt="<%= place.title %>">
-                      </div>
-                      <% } %>
+                            <div class="carousel-item <%= isActive ? 'active' : '' %>">
+                                <img src="/image/<%= image.filename %>" class="d-block w-100" alt="<%= place.title %>">
+                            </div>
+                            <% isActive = false; %> <!-- Setelah item pertama, ubah isActive menjadi false -->
+                        <% } %>
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="visually-hidden">Previous</span>
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
                     </button>
                     <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="visually-hidden">Next</span>
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
                     </button>
-                  </div>
+                </div>
                 <div>
                     <h5 class="mb-3 text-primary">Description</h5>
                     <p class="text-muted"><%= place.description %></p>
-                    
+            
                     <h5 class="mb-3 text-primary">Location</h5>
                     <p class="text-muted"><%= place.location %></p>
                     <p class="text-muted"><strong>Posted by:</strong> <%= place.author.username %></p>
                 </div>
             </div>
+            
             <% if(currentUser && place.author.equals(currentUser._id)) { %>
             <div class="card-footer d-flex justify-content-between align-items-center bg-light">
                 <form action="/places/<%= place._id %>?_method=DELETE" method="POST" class="d-inline">

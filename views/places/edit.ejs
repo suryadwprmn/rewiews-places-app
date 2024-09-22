@@ -1,7 +1,7 @@
 <% layout("layouts/app") %>
     <h1 class="text-center">Edit Place</h1>
     <div class="col-md-6 offset-md-3 col-sm-10">
-        <form action="/places/<%= place._id %>?_method=PUT" method="POST" class="needs-validation mb-3" novalidate>
+        <form action="/places/<%= place._id %>?_method=PUT" method="POST" class="needs-validation mb-3" novalidate enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
                 <input type="text" name="place[title]" id="title" class="form-control" value="<%= place.title %>" required>
@@ -20,9 +20,12 @@
                 <input type="text" name="place[location]" id="location" class="form-control" value="<%= place.location %>" required>
             </div>
             <div class="mb-3">
-                <label for="image" class="form-label">Image URL</label>
-                <input type="text" name="place[image]" id="image" class="form-control" value="<%= place.image %>" required>
+                <label for="image" class="form-label">Images</label>
+                <input type="file" name="image" id="image" accept="image/*" class="form-control" multiple>
+                <div class="invalid-feedback">
+                    Please select at least one image.
+                </div>
             </div>
-            <input type="submit" value="Add Place" class="btn btn-success">
+            <input type="submit" value="Edit Place" class="btn btn-success">
         </form>
     </div>
